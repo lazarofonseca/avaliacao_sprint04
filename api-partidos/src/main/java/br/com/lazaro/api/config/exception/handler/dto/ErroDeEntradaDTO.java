@@ -1,11 +1,17 @@
-package br.com.lazaro.api.config.validacao.dto;
+package br.com.lazaro.api.config.exception.handler.dto;
 
 public class ErroDeEntradaDTO {
 
 	private String campo;
 	private String erro;
+	
+	public ErroDeEntradaDTO() {
+
+	}
+
 
 	public ErroDeEntradaDTO(String campo, String erro) {
+
 		this.campo = campo;
 		this.erro = erro;
 	}
@@ -25,5 +31,7 @@ public class ErroDeEntradaDTO {
 	public void setErro(String erro) {
 		this.erro = erro;
 	}
+
+
 
 }

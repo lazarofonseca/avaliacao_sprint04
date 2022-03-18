@@ -2,6 +2,7 @@ package br.com.lazaro.api.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import br.com.lazaro.api.dto.PartidoDTO;
 import br.com.lazaro.api.model.Partido;
 import br.com.lazaro.api.repository.PartidoRepository;
+import br.com.lazaro.api.service.exception.EntityNotFoundException;
 
 @Service
 public class PartidoService {
@@ -66,6 +68,14 @@ public class PartidoService {
 
 		return listDTO;
 	}
+	
+	@Transactional
+	public PartidoDTO findById(Long id) throws EntityNotFoundException {
+		Optional<Partido> objModel = partidoRepository.findById(id);
+		Partido model = objModel.orElseThrow(() -> new EntityNotFoundException("Partido de Id " + id + " não foi encontrado"));
+		return new PartidoDTO(model);
+	}
+
 
 	public static Partido instanciaPartido(PartidoDTO partidoDTO) {
 		Partido partido = new Partido();
@@ -76,6 +86,8 @@ public class PartidoService {
 
 		return partido;
 	}
+
+	
 
 
 
