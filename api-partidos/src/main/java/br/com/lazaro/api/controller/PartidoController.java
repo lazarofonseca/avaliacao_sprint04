@@ -1,11 +1,13 @@
 package br.com.lazaro.api.controller;
 
 import java.net.URI;
+import java.util.List;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,12 +25,27 @@ public class PartidoController {
 	private PartidoService partidoService;
 	
 	@PostMapping("/partidos")
-	public ResponseEntity<PartidoDTO> inserir(@RequestBody @Valid PartidoDTO partidoDTO){
+	public ResponseEntity<PartidoDTO> insert(@RequestBody @Valid PartidoDTO partidoDTO){
 		partidoDTO = partidoService.inserir(partidoDTO);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("{id}").buildAndExpand(partidoDTO.getId())
 		.toUri();
 		
 		return ResponseEntity.created(uri).body(partidoDTO);
+	}
+	
+	@GetMapping("/partidos")
+	public List<PartidoDTO> findAll(String ideologia){
+		
+		if(ideologia == null) {
+			List<PartidoDTO> partidos = partidoService.findAll();
+			return partidos;
+		} else {
+			List<PartidoDTO> partidos = partidoService.findByIdeologia(ideologia);
+			return partidos;
+		}
+		
+		
+		
 	}
 
 }
