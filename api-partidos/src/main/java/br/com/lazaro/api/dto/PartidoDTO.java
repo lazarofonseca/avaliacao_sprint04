@@ -2,15 +2,28 @@ package br.com.lazaro.api.dto;
 
 import java.time.LocalDate;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
 import br.com.lazaro.api.model.Partido;
 
 public class PartidoDTO {
 
 	private Long id;
+	
+	@NotNull @NotEmpty
 	private String nome;
+	
+	@NotNull @NotEmpty
 	private String sigla;
+	
+	@NotNull @NotEmpty
 	private String ideologia;
+	
+	@NotNull
 	private LocalDate dataFundacao;
+	
+	
 
 	public PartidoDTO() {
 	}

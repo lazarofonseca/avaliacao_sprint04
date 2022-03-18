@@ -2,6 +2,8 @@ package br.com.lazaro.api.controller;
 
 import java.net.URI;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,7 +23,7 @@ public class PartidoController {
 	private PartidoService partidoService;
 	
 	@PostMapping("/partidos")
-	public ResponseEntity<PartidoDTO> inserir(@RequestBody PartidoDTO partidoDTO){
+	public ResponseEntity<PartidoDTO> inserir(@RequestBody @Valid PartidoDTO partidoDTO){
 		partidoDTO = partidoService.inserir(partidoDTO);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("{id}").buildAndExpand(partidoDTO.getId())
 		.toUri();
