@@ -42,19 +42,22 @@ public class AssociadoService {
 
 		Optional<Associado> associadoDTO = associadoRepository.findById(idAssociado);
 		Optional<Partido> partidoDTO = partidoRepository.findById(idPartido);
-		List<Associado> listaAssociados = new ArrayList<>();
+		//List<Associado> listaAssociados = new ArrayList<>();
 		
 		Associado socioModelo = associadoDTO.orElseThrow(() -> new EntityNotFoundException("Associado de Id " + idAssociado + " não foi encontrado"));
 		Partido partidoModelo = partidoDTO.orElseThrow(() -> new EntityNotFoundException("Partido de Id " + idPartido + " não foi encontrado"));
 		
-		listaAssociados.add(socioModelo);
+		//listaAssociados.add(socioModelo);
 		
 		AssociadoDTO socioDTO = new AssociadoDTO(socioModelo);
+		System.out.println(socioDTO.getNome());
+		socioDTO.setPartido(partidoModelo);
+		System.out.println(socioDTO.getPartido().getSigla());
 		PartidoDTO partidoDTO2 = new PartidoDTO(partidoModelo);
 		
+		socioModelo.setPartido(partidoModelo);
 		
-		
-		partidoModelo.setAssociados(listaAssociados);
+		//partidoModelo.setAssociados(listaAssociados);
 
 		Associado associado = new Associado();
 		associado = instanciaAssociado(socioDTO);
@@ -62,7 +65,7 @@ public class AssociadoService {
 		partido = instanciaPartido(partidoDTO2);
 		
 		partido = partidoRepository.save(partido);
-		associado = associadoRepository.save(associado);
+		associado = associadoRepository.save(socioModelo);
 
 		System.out.println(partido.getAssociados().get(0));
 		

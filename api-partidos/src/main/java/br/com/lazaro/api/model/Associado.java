@@ -25,7 +25,7 @@ public class Associado implements Serializable {
 	private String sexo;
 
 	@ManyToOne
-	@JoinColumn(name = "ID_PARTIDO")
+	@JoinTable(name = "idPartido")
 	private Partido partido;
 
 	public Associado() {
