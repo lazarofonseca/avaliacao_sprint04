@@ -39,7 +39,7 @@ public class PartidoService {
 		for (Partido partido : list) {
 			PartidoDTO partidoDTO = new PartidoDTO();
 			partidoDTO.setId(partido.getId());
-			partidoDTO.setNome(partido.getNome());
+			partidoDTO.setNomePartido(partido.getNomePartido());
 			partidoDTO.setSigla(partido.getSigla());
 			partidoDTO.setIdeologia(partido.getIdeologia());
 			partidoDTO.setDataFundacao(partido.getDataFundacao());
@@ -58,7 +58,7 @@ public class PartidoService {
 		for (Partido partido : list) {
 			PartidoDTO partidoDTO = new PartidoDTO();
 			partidoDTO.setId(partido.getId());
-			partidoDTO.setNome(partido.getNome());
+			partidoDTO.setNomePartido(partido.getNomePartido());
 			partidoDTO.setSigla(partido.getSigla());
 			partidoDTO.setIdeologia(partido.getIdeologia());
 			partidoDTO.setDataFundacao(partido.getDataFundacao());
@@ -76,18 +76,47 @@ public class PartidoService {
 		return new PartidoDTO(model);
 	}
 
+	@Transactional
+	public PartidoDTO update(Long id, PartidoDTO partidoDto) {
+		
+		try {
+			Partido partido = partidoRepository.getOne(id);
+			System.out.println(partido.getId());
+			partido.setNomePartido(partidoDto.getNomePartido());
+			partido.setIdeologia(partidoDto.getIdeologia());
+			partido.setSigla(partidoDto.getSigla());
+			partido.setDataFundacao(partidoDto.getDataFundacao());
+			partido.setAssociados(partidoDto.getAssociados());
+			partido = partidoRepository.save(partido);
+			
+			return new PartidoDTO(partido);
+		}
+		catch(javax.persistence.EntityNotFoundException e) {
+			throw new EntityNotFoundException("Id " + " não encontrado");
+		}
+	}
+
+	public void delete(Long id) {
+		try {
+		partidoRepository.deleteById(id);
+		
+		}catch(EntityNotFoundException e) {
+			throw new EntityNotFoundException("Id " + id + " não encontrado");
+		}
+		
+	}
 
 	public static Partido instanciaPartido(PartidoDTO partidoDTO) {
 		Partido partido = new Partido();
-		partido.setNome(partidoDTO.getNome());
+		partido.setId(partidoDTO.getId());
+		partido.setNomePartido(partidoDTO.getNomePartido());
 		partido.setSigla(partidoDTO.getSigla());
 		partido.setIdeologia(partidoDTO.getIdeologia());
 		partido.setDataFundacao(partidoDTO.getDataFundacao());
-
+		partido.setAssociados(partidoDTO.getAssociados());
 		return partido;
 	}
 
-	
 
 
 

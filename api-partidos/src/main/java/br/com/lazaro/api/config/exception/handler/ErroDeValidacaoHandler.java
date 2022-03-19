@@ -41,6 +41,8 @@ public class ErroDeValidacaoHandler {
 
 		return erroDTO;
 	}
+	
+	
 
 	@ResponseStatus(code = HttpStatus.NOT_FOUND)
 	@ExceptionHandler(EntityNotFoundException.class)
