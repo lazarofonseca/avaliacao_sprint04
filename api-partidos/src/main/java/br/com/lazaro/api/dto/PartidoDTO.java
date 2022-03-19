@@ -41,9 +41,7 @@ public class PartidoDTO implements Serializable{
 	private String ideologia;
 
 	@NotNull
-	//@JsonFormat(shape = Shape.STRING, pattern = "dd-MM-yyyy")
-	@DateTimeFormat(pattern  = "dd-MM-yyyy")
-	@JsonFormat(pattern = "dd/MM/yyyy")
+	@JsonFormat(shape = Shape.STRING, pattern = "dd-MM-yyyy")
 	private LocalDate dataFundacao;
 
 	List<Associado> associados = new ArrayList<>();
@@ -60,20 +58,20 @@ public class PartidoDTO implements Serializable{
 	}
 
 	public PartidoDTO(Partido partido) {
-		this.idPartido = partido.getId();
+		this.idPartido = partido.getIdPartido();
 		this.nomePartido = partido.getNomePartido();
 		this.sigla = partido.getSigla();
 		this.ideologia = partido.getIdeologia();
 		this.dataFundacao = partido.getDataFundacao();
 		this.associados = partido.getAssociados();
 	}
-
-	public Long getId() {
+	
+	public Long getIdPartido() {
 		return idPartido;
 	}
 
-	public void setId(Long id) {
-		this.idPartido = id;
+	public void setIdPartido(Long idPartido) {
+		this.idPartido = idPartido;
 	}
 
 	public String getNomePartido() {

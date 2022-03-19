@@ -18,7 +18,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonFormat.Shape;
 
 @Entity
-public class Partido implements Serializable{
+public class Partido implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -29,20 +29,20 @@ public class Partido implements Serializable{
 	private String sigla;
 	private String ideologia;
 	private LocalDate dataFundacao;
-	
+
 	@JsonIgnore
-	@OneToMany(mappedBy = "idPartido", targetEntity = Partido.class)
+	@OneToMany(mappedBy = "idAssociado")
 	List<Associado> associados = new ArrayList<>();
 
 	public Partido() {
 	}
 
-	public Long getId() {
+	public Long getIdPartido() {
 		return idPartido;
 	}
 
-	public void setId(Long id) {
-		this.idPartido = id;
+	public void setIdPartido(Long idPartido) {
+		this.idPartido = idPartido;
 	}
 
 	public String getNomePartido() {
@@ -109,7 +109,5 @@ public class Partido implements Serializable{
 			return false;
 		return true;
 	}
-	
-	
 
 }

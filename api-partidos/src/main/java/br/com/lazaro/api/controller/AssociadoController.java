@@ -14,11 +14,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.com.lazaro.api.dto.AssociadoDTO;
+import br.com.lazaro.api.dto.AssociadoDtoPartidoDto;
 import br.com.lazaro.api.dto.PartidoDTO;
+import br.com.lazaro.api.model.Associado;
 import br.com.lazaro.api.service.AssociadoService;
 import br.com.lazaro.api.service.PartidoService;
 import br.com.lazaro.api.service.exception.EntityNotFoundException;
@@ -29,6 +32,9 @@ public class AssociadoController {
 
 	@Autowired
 	private AssociadoService associadoService;
+	
+	@Autowired
+	private PartidoService partidoService;
 
 	@PostMapping("/associados")
 	public ResponseEntity<AssociadoDTO> insert(@RequestBody @Valid AssociadoDTO associadoDTO) {
@@ -39,6 +45,31 @@ public class AssociadoController {
 		return ResponseEntity.created(uri).body(associadoDTO);
 	}
 
+	@PostMapping("/associados/partidos")
+	public ResponseEntity<?> associarcePartido(@RequestBody AssociadoDtoPartidoDto associadoDtoPartidoDto) {
+			System.out.println("Id associado " + associadoDtoPartidoDto.getIdAssociado());
+			System.out.println("Id partido " + associadoDtoPartidoDto.getIdPartido());
+		  AssociadoDTO associadoDTO = associadoService.findById(associadoDtoPartidoDto.getIdAssociado());
+		  PartidoDTO  partidoDTO = partidoService.findById(associadoDtoPartidoDto.getIdPartido());
+		 
+		  System.out.println(associadoDTO.getIdAssociado());
+		 // System.out.println(partidoDTO.getIdPartido());
+		
+		AssociadoDTO associado = associadoService.findById(associadoDTO.getIdAssociado());
+	//	PartidoDTO partido = partidoService.findById(partidoDTO.getIdPartido());
+		
+		associado = associadoService.inserirAssociadoAoPartido(associadoDTO.getIdAssociado(), partidoDTO.getIdPartido());
+		
+		//AssociadoDTO assocido = associadoService.inserirAssociadoAoPartido(associado.getIdAssociado(), partido.getIdPartido());
+		
+		/*
+		 * URI uri =
+		 * ServletUriComponentsBuilder.fromCurrentRequest().path("{idAssociado}").
+		 * buildAndExpand(idAssociadoDTO.getIdAssociado()) .toUri();
+		 */
+
+		return null;
+	}
 	@GetMapping("/associados")
 	public List<AssociadoDTO> findAll(String cargoPolitico) {
 

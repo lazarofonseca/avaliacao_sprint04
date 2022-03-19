@@ -38,7 +38,7 @@ public class PartidoService {
 
 		for (Partido partido : list) {
 			PartidoDTO partidoDTO = new PartidoDTO();
-			partidoDTO.setId(partido.getId());
+			partidoDTO.setIdPartido(partido.getIdPartido());
 			partidoDTO.setNomePartido(partido.getNomePartido());
 			partidoDTO.setSigla(partido.getSigla());
 			partidoDTO.setIdeologia(partido.getIdeologia());
@@ -57,7 +57,7 @@ public class PartidoService {
 
 		for (Partido partido : list) {
 			PartidoDTO partidoDTO = new PartidoDTO();
-			partidoDTO.setId(partido.getId());
+			partidoDTO.setIdPartido(partido.getIdPartido());
 			partidoDTO.setNomePartido(partido.getNomePartido());
 			partidoDTO.setSigla(partido.getSigla());
 			partidoDTO.setIdeologia(partido.getIdeologia());
@@ -81,7 +81,6 @@ public class PartidoService {
 		
 		try {
 			Partido partido = partidoRepository.getOne(id);
-			System.out.println(partido.getId());
 			partido.setNomePartido(partidoDto.getNomePartido());
 			partido.setIdeologia(partidoDto.getIdeologia());
 			partido.setSigla(partidoDto.getSigla());
@@ -108,7 +107,7 @@ public class PartidoService {
 
 	public static Partido instanciaPartido(PartidoDTO partidoDTO) {
 		Partido partido = new Partido();
-		partido.setId(partidoDTO.getId());
+		partido.setIdPartido(partidoDTO.getIdPartido());
 		partido.setNomePartido(partidoDTO.getNomePartido());
 		partido.setSigla(partidoDTO.getSigla());
 		partido.setIdeologia(partidoDTO.getIdeologia());

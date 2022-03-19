@@ -31,7 +31,7 @@ public class PartidoController {
 	@PostMapping("/partidos")
 	public ResponseEntity<PartidoDTO> insert(@RequestBody @Valid PartidoDTO partidoDTO) {
 		partidoDTO = partidoService.inserir(partidoDTO);
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("{id}").buildAndExpand(partidoDTO.getId())
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("{id}").buildAndExpand(partidoDTO.getIdPartido())
 				.toUri();
 
 		return ResponseEntity.created(uri).body(partidoDTO);
@@ -60,7 +60,7 @@ public class PartidoController {
 	@PutMapping("/partidos/{id}")
 	public ResponseEntity<PartidoDTO> update(@PathVariable Long id, @RequestBody PartidoDTO partidoDto) {
 		partidoDto = partidoService.update(id, partidoDto);
-		System.out.println(partidoDto.getId());
+		System.out.println(partidoDto.getIdPartido());
 		return ResponseEntity.ok().body(partidoDto);
 	}
 	

@@ -5,6 +5,9 @@ import java.time.LocalDate;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonFormat.Shape;
+
 import br.com.lazaro.api.model.Associado;
 import br.com.lazaro.api.model.Partido;
 
@@ -18,6 +21,7 @@ public class AssociadoDTO {
 	@NotEmpty
 	private String cargoPolitico;
 	@NotNull
+	@JsonFormat(shape = Shape.STRING, pattern = "dd-MM-yyyy")
 	private LocalDate dataNascimento;
 	@NotNull
 	@NotEmpty
