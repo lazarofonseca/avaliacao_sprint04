@@ -35,21 +35,22 @@ public class AssociadoService {
 
 	@Transactional
 	public List<AssociadoDTO> findAll() {
-		List<Associado> associados = associadoRepository.findAll();;
+		List<Associado> list = associadoRepository.findAll();
 		List<AssociadoDTO> listDTO = new ArrayList<>();
 
-		for (Associado associado : associados) {
+		for (Associado associado : list) {
 			AssociadoDTO associadoDTO = new AssociadoDTO();
-			associadoDTO.setId(associado.getId());
-			associado.setNome(associado.getNome());
-			associado.setCargoPolitico(associado.getCargoPolitico());
-			associado.setDataNascimento(associado.getDataNascimento());
-			associado.setPartido(associado.getPartido());
+			associadoDTO.setIdAssociado(associado.getIdAssociado());
+			associadoDTO.setPartido(associado.getPartido());
+			associadoDTO.setCargoPolitico(associado.getCargoPolitico());
+			associadoDTO.setDataNascimento(associado.getDataNascimento());
+			associadoDTO.setNome(associado.getNome());
 			associado.setSexo(associado.getSexo());
-
+			
 			listDTO.add(associadoDTO);
 		}
-
+		
+		System.out.println(listDTO.get(0).getCargoPolitico());
 		return listDTO;
 	}
 	
@@ -57,16 +58,16 @@ public class AssociadoService {
 	public List<AssociadoDTO> findByCargo(String cargoPolitico) {
 		List<Associado> list = associadoRepository.findByCargoPolitico(cargoPolitico);
 		List<AssociadoDTO> listDTO = new ArrayList<>();
-
+		
 		for (Associado associado : list) {
 			AssociadoDTO associadoDTO = new AssociadoDTO();
-			associadoDTO.setId(associado.getId());
-			associado.setNome(associado.getNome());
-			associado.setCargoPolitico(associado.getCargoPolitico());
-			associado.setDataNascimento(associado.getDataNascimento());
-			associado.setPartido(associado.getPartido());
+			associadoDTO.setIdAssociado(associado.getIdAssociado());
+			associadoDTO.setPartido(associado.getPartido());
+			associadoDTO.setCargoPolitico(associado.getCargoPolitico());
+			associadoDTO.setDataNascimento(associado.getDataNascimento());
+			associadoDTO.setNome(associado.getNome());
 			associado.setSexo(associado.getSexo());
-
+			
 			listDTO.add(associadoDTO);
 		}
 
@@ -76,7 +77,7 @@ public class AssociadoService {
 	@Transactional
 	public AssociadoDTO findById(Long id) throws EntityNotFoundException {
 		Optional<Associado> objModel = associadoRepository.findById(id);
-		Associado model = objModel.orElseThrow(() -> new EntityNotFoundException("Partido de Id " + id + " não foi encontrado"));
+		Associado model = objModel.orElseThrow(() -> new EntityNotFoundException("Associado de Id " + id + " não foi encontrado"));
 		return new AssociadoDTO(model);
 	}
 
@@ -111,9 +112,9 @@ public class AssociadoService {
 
 	public static Associado instanciaAssociado(AssociadoDTO associadoDTO) {
 		Associado associado = new Associado();
-		associado.setId(associadoDTO.getId());
+		associado.setIdAssociado(associadoDTO.getIdAssociado());
 		associado.setNome(associadoDTO.getNome());
-		associado.setCargoPolitico(associado.getCargoPolitico());
+		associado.setCargoPolitico(associadoDTO.getCargoPolitico());
 		associado.setDataNascimento(associadoDTO.getDataNascimento());
 		associado.setPartido(associadoDTO.getPartido());
 		associado.setSexo(associadoDTO.getSexo());

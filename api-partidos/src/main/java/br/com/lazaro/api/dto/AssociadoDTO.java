@@ -10,7 +10,7 @@ import br.com.lazaro.api.model.Partido;
 
 public class AssociadoDTO {
 
-	private Long id;
+	private Long idAssociado;
 	@NotNull
 	@NotEmpty
 	private String nome;
@@ -30,7 +30,7 @@ public class AssociadoDTO {
 
 	public AssociadoDTO(Long id, String nome, String cargoPolitico, LocalDate dataNascimento, String sexo,
 			Partido partido) {
-		this.id = id;
+		this.idAssociado = id;
 		this.nome = nome;
 		this.cargoPolitico = cargoPolitico;
 		this.dataNascimento = dataNascimento;
@@ -39,7 +39,7 @@ public class AssociadoDTO {
 	}
 
 	public AssociadoDTO(Associado associado) {
-		this.id = associado.getId();
+		this.idAssociado = associado.getIdAssociado();
 		this.nome = associado.getNome();
 		this.cargoPolitico = associado.getCargoPolitico();
 		this.dataNascimento = associado.getDataNascimento();
@@ -47,12 +47,12 @@ public class AssociadoDTO {
 		this.partido = associado.getPartido();
 	}
 
-	public Long getId() {
-		return id;
+	public Long getIdAssociado() {
+		return idAssociado;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setIdAssociado(Long idAssociado) {
+		this.idAssociado = idAssociado;
 	}
 
 	public String getNome() {
@@ -99,7 +99,7 @@ public class AssociadoDTO {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((idAssociado == null) ? 0 : idAssociado.hashCode());
 		return result;
 	}
 
@@ -112,10 +112,10 @@ public class AssociadoDTO {
 		if (getClass() != obj.getClass())
 			return false;
 		AssociadoDTO other = (AssociadoDTO) obj;
-		if (id == null) {
-			if (other.id != null)
+		if (idAssociado == null) {
+			if (other.idAssociado != null)
 				return false;
-		} else if (!id.equals(other.id))
+		} else if (!idAssociado.equals(other.idAssociado))
 			return false;
 		return true;
 	}

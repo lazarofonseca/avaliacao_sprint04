@@ -10,8 +10,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonFormat.Shape;
 
 @Entity
 public class Partido implements Serializable{
@@ -20,25 +24,25 @@ public class Partido implements Serializable{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private Long idPartido;
 	private String nomePartido;
 	private String sigla;
 	private String ideologia;
 	private LocalDate dataFundacao;
 	
 	@JsonIgnore
-	@OneToMany(mappedBy = "partido")
+	@OneToMany(mappedBy = "idPartido", targetEntity = Partido.class)
 	List<Associado> associados = new ArrayList<>();
 
 	public Partido() {
 	}
 
 	public Long getId() {
-		return id;
+		return idPartido;
 	}
 
 	public void setId(Long id) {
-		this.id = id;
+		this.idPartido = id;
 	}
 
 	public String getNomePartido() {
@@ -85,7 +89,7 @@ public class Partido implements Serializable{
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((idPartido == null) ? 0 : idPartido.hashCode());
 		return result;
 	}
 
@@ -98,10 +102,10 @@ public class Partido implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		Partido other = (Partido) obj;
-		if (id == null) {
-			if (other.id != null)
+		if (idPartido == null) {
+			if (other.idPartido != null)
 				return false;
-		} else if (!id.equals(other.id))
+		} else if (!idPartido.equals(other.idPartido))
 			return false;
 		return true;
 	}

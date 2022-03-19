@@ -8,42 +8,43 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 
 @Entity
-public class Associado implements Serializable{
+public class Associado implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private Long idAssociado;
 	private String nome;
 	private String cargoPolitico;
 	private LocalDate dataNascimento;
 	private String sexo;
 
 	@ManyToOne
-	@JoinColumn(name = "partido_id")
+	@JoinColumn(name = "ID_PARTIDO")
 	private Partido partido;
 
 	public Associado() {
 	}
 
 	public Associado(Long id, String nome, String cargoPolitico, LocalDate dataNascimento, String sexo) {
-		this.id = id;
+		this.idAssociado = id;
 		this.nome = nome;
 		this.cargoPolitico = cargoPolitico;
 		this.dataNascimento = dataNascimento;
 		this.sexo = sexo;
 	}
 
-	public Long getId() {
-		return id;
+	public Long getIdAssociado() {
+		return idAssociado;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setIdAssociado(Long idAssociado) {
+		this.idAssociado = idAssociado;
 	}
 
 	public String getNome() {
@@ -90,7 +91,7 @@ public class Associado implements Serializable{
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((idAssociado == null) ? 0 : idAssociado.hashCode());
 		return result;
 	}
 
@@ -103,10 +104,10 @@ public class Associado implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		Associado other = (Associado) obj;
-		if (id == null) {
-			if (other.id != null)
+		if (idAssociado == null) {
+			if (other.idAssociado != null)
 				return false;
-		} else if (!id.equals(other.id))
+		} else if (!idAssociado.equals(other.idAssociado))
 			return false;
 		return true;
 	}

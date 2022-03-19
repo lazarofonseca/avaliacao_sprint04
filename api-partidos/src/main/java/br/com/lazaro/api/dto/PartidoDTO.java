@@ -1,18 +1,32 @@
 package br.com.lazaro.api.dto;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+
+import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters.LocalDateConverter;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonFormat.Shape;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import br.com.lazaro.api.model.Associado;
 import br.com.lazaro.api.model.Partido;
 
-public class PartidoDTO {
+public class PartidoDTO implements Serializable{
 
-	private Long id;
+	
+	private static final long serialVersionUID = 1L;
+
+	private Long idPartido;
 
 	@NotNull
 	@NotEmpty
@@ -27,6 +41,9 @@ public class PartidoDTO {
 	private String ideologia;
 
 	@NotNull
+	//@JsonFormat(shape = Shape.STRING, pattern = "dd-MM-yyyy")
+	@DateTimeFormat(pattern  = "dd-MM-yyyy")
+	@JsonFormat(pattern = "dd/MM/yyyy")
 	private LocalDate dataFundacao;
 
 	List<Associado> associados = new ArrayList<>();
@@ -35,7 +52,7 @@ public class PartidoDTO {
 	}
 
 	public PartidoDTO(Long id, String nomePartido, String sigla, String ideologia, LocalDate dataFundacao) {
-		this.id = id;
+		this.idPartido = id;
 		this.nomePartido = nomePartido;
 		this.sigla = sigla;
 		this.ideologia = ideologia;
@@ -43,7 +60,7 @@ public class PartidoDTO {
 	}
 
 	public PartidoDTO(Partido partido) {
-		this.id = partido.getId();
+		this.idPartido = partido.getId();
 		this.nomePartido = partido.getNomePartido();
 		this.sigla = partido.getSigla();
 		this.ideologia = partido.getIdeologia();
@@ -52,11 +69,11 @@ public class PartidoDTO {
 	}
 
 	public Long getId() {
-		return id;
+		return idPartido;
 	}
 
 	public void setId(Long id) {
-		this.id = id;
+		this.idPartido = id;
 	}
 
 	public String getNomePartido() {

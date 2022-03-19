@@ -33,7 +33,7 @@ public class AssociadoController {
 	@PostMapping("/associados")
 	public ResponseEntity<AssociadoDTO> insert(@RequestBody @Valid AssociadoDTO associadoDTO) {
 		associadoDTO = associadoService.inserir(associadoDTO);
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("{id}").buildAndExpand(associadoDTO.getId())
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("{id}").buildAndExpand(associadoDTO.getIdAssociado())
 				.toUri();
 
 		return ResponseEntity.created(uri).body(associadoDTO);
@@ -62,7 +62,7 @@ public class AssociadoController {
 	@PutMapping("/associados/{id}")
 	public ResponseEntity<AssociadoDTO> update(@PathVariable Long id, @RequestBody AssociadoDTO associadoDto) {
 		associadoDto = associadoService.update(id, associadoDto);
-		System.out.println(associadoDto.getId());
+		System.out.println(associadoDto.getIdAssociado());
 		return ResponseEntity.ok().body(associadoDto);
 	}
 	
