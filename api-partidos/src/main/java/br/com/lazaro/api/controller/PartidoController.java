@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import br.com.lazaro.api.dto.AssociadoDTO;
 import br.com.lazaro.api.dto.PartidoDTO;
 import br.com.lazaro.api.service.PartidoService;
 import br.com.lazaro.api.service.exception.EntityNotFoundException;
@@ -54,6 +55,14 @@ public class PartidoController {
 	public ResponseEntity<PartidoDTO> findById(@PathVariable Long id) throws EntityNotFoundException {
 		PartidoDTO dto = partidoService.findById(id);
 		return ResponseEntity.ok().body(dto);
+
+	}
+	
+	@GetMapping(value = "/partidos/{id}/associados") 
+	public List<AssociadoDTO> findByIdAssociados(@PathVariable Long id) throws EntityNotFoundException {
+		System.out.println(id);
+		List<AssociadoDTO> listDto = partidoService.findAllAssociadosPartido(id);
+		return listDto;
 
 	}
 	

@@ -32,71 +32,61 @@ public class AssociadoController {
 
 	@Autowired
 	private AssociadoService associadoService;
-	
+
 	@Autowired
 	private PartidoService partidoService;
 
 	@PostMapping("/associados")
 	public ResponseEntity<AssociadoDTO> insert(@RequestBody @Valid AssociadoDTO associadoDTO) {
 		associadoDTO = associadoService.inserir(associadoDTO);
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("{id}").buildAndExpand(associadoDTO.getIdAssociado())
-				.toUri();
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("{id}")
+				.buildAndExpand(associadoDTO.getIdAssociado()).toUri();
 
 		return ResponseEntity.created(uri).body(associadoDTO);
 	}
 
 	@PostMapping("/associados/partidos")
 	public ResponseEntity<?> associarcePartido(@RequestBody AssociadoDtoPartidoDto associadoDtoPartidoDto) {
-			System.out.println("Id associado " + associadoDtoPartidoDto.getIdAssociado());
-			System.out.println("Id partido " + associadoDtoPartidoDto.getIdPartido());
-		  AssociadoDTO associadoDTO = associadoService.findById(associadoDtoPartidoDto.getIdAssociado());
-		  PartidoDTO  partidoDTO = partidoService.findById(associadoDtoPartidoDto.getIdPartido());
-		 
-		  System.out.println(associadoDTO.getIdAssociado());
-		 // System.out.println(partidoDTO.getIdPartido());
-		
-		AssociadoDTO associado = associadoService.findById(associadoDTO.getIdAssociado());
-	//	PartidoDTO partido = partidoService.findById(partidoDTO.getIdPartido());
-		
-		associado = associadoService.inserirAssociadoAoPartido(associadoDTO.getIdAssociado(), partidoDTO.getIdPartido());
-		
-		//AssociadoDTO assocido = associadoService.inserirAssociadoAoPartido(associado.getIdAssociado(), partido.getIdPartido());
-		
-		/*
-		 * URI uri =
-		 * ServletUriComponentsBuilder.fromCurrentRequest().path("{idAssociado}").
-		 * buildAndExpand(idAssociadoDTO.getIdAssociado()) .toUri();
-		 */
+		AssociadoDTO associadoDTO = associadoService.findById(associadoDtoPartidoDto.getIdAssociado());
+		PartidoDTO partidoDTO = partidoService.findById(associadoDtoPartidoDto.getIdPartido());
 
-		return null;
+		AssociadoDTO associado = associadoService.findById(associadoDTO.getIdAssociado());
+		associado = associadoService.inserirAssociadoAoPartido(associadoDTO.getIdAssociado(),
+				partidoDTO.getIdPartido());
+
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("{idAssociado}")
+				.buildAndExpand(associadoDTO.getIdAssociado()).toUri();
+
+		return ResponseEntity.created(uri).body(associadoDTO);
 	}
+
 	@GetMapping("/associados")
 	public List<AssociadoDTO> findAll(String cargoPolitico) {
 
 		if (cargoPolitico == null) {
 			List<AssociadoDTO> associados = associadoService.findAll();
 			return associados;
-		} else {
+		}else {
 			List<AssociadoDTO> associados = associadoService.findByCargo(cargoPolitico);
 			return associados;
 		}
 
 	}
-	
-	@GetMapping(value = "/associados/{id}") 
+
+	@GetMapping(value = "/associados/{id}")
 	public ResponseEntity<AssociadoDTO> findById(@PathVariable Long id) throws EntityNotFoundException {
 		AssociadoDTO dto = associadoService.findById(id);
 		return ResponseEntity.ok().body(dto);
 
 	}
-	
+
 	@PutMapping("/associados/{id}")
 	public ResponseEntity<AssociadoDTO> update(@PathVariable Long id, @RequestBody AssociadoDTO associadoDto) {
 		associadoDto = associadoService.update(id, associadoDto);
 		System.out.println(associadoDto.getIdAssociado());
 		return ResponseEntity.ok().body(associadoDto);
 	}
-	
+
 	@DeleteMapping(value = "/associados/{id}")
 	public ResponseEntity<AssociadoDTO> delete(@PathVariable Long id) {
 		associadoService.delete(id);

@@ -84,6 +84,12 @@ public class Partido implements Serializable {
 	public void setAssociados(List<Associado> associados) {
 		this.associados = associados;
 	}
+	
+	public void adicionaAssociado(Associado associado) {
+		List<Associado> list = new ArrayList<>();
+		list.add(associado);
+		this.associados.add(list.get(0));
+	}
 
 	@Override
 	public int hashCode() {

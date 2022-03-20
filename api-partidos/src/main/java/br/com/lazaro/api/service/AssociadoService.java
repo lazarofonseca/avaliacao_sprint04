@@ -7,6 +7,7 @@ import java.util.Optional;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import br.com.lazaro.api.dto.AssociadoDTO;
@@ -40,34 +41,34 @@ public class AssociadoService {
 	@Transactional
 	public AssociadoDTO inserirAssociadoAoPartido(Long idAssociado, Long idPartido) {
 
-		Optional<Associado> associadoDTO = associadoRepository.findById(idAssociado);
-		Optional<Partido> partidoDTO = partidoRepository.findById(idPartido);
-		//List<Associado> listaAssociados = new ArrayList<>();
+		Optional<Associado> aassDto = associadoRepository.findById(idAssociado);
+		Optional<Partido> parDto = partidoRepository.findById(idPartido);
+		List<Associado> lista = new ArrayList<>();
 		
-		Associado socioModelo = associadoDTO.orElseThrow(() -> new EntityNotFoundException("Associado de Id " + idAssociado + " não foi encontrado"));
-		Partido partidoModelo = partidoDTO.orElseThrow(() -> new EntityNotFoundException("Partido de Id " + idPartido + " não foi encontrado"));
+		Associado associadoModelo = aassDto.orElseThrow(
+				() -> new EntityNotFoundException("Associado de Id " + idAssociado + " não foi encontrado"));
+		Partido partidoModelo = parDto
+				.orElseThrow(() -> new EntityNotFoundException("Partido de Id " + idPartido + " não foi encontrado"));
+
 		
-		//listaAssociados.add(socioModelo);
+		AssociadoDTO associadoDTO = new AssociadoDTO(associadoModelo);
+
+		associadoDTO.setPartido(partidoModelo);
+
+		PartidoDTO partidoDTO = new PartidoDTO(partidoModelo);
+
+		associadoModelo.setPartido(partidoModelo);
 		
-		AssociadoDTO socioDTO = new AssociadoDTO(socioModelo);
-		System.out.println(socioDTO.getNome());
-		socioDTO.setPartido(partidoModelo);
-		System.out.println(socioDTO.getPartido().getSigla());
-		PartidoDTO partidoDTO2 = new PartidoDTO(partidoModelo);
 		
-		socioModelo.setPartido(partidoModelo);
-		
-		//partidoModelo.setAssociados(listaAssociados);
+		partidoModelo.setAssociados(lista);
 
 		Associado associado = new Associado();
-		associado = instanciaAssociado(socioDTO);
+		associado = instanciaAssociado(associadoDTO);
 		Partido partido = new Partido();
-		partido = instanciaPartido(partidoDTO2);
-		
-		partido = partidoRepository.save(partido);
-		associado = associadoRepository.save(socioModelo);
+		partido = instanciaPartido(partidoDTO);
 
-		System.out.println(partido.getAssociados().get(0));
+		partido = partidoRepository.save(partido);
+		associado = associadoRepository.save(associado);
 		
 		return new AssociadoDTO(associado);
 	}
