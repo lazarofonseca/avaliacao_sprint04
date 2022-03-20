@@ -15,7 +15,7 @@ import br.com.lazaro.api.model.Associado;
 import br.com.lazaro.api.model.Partido;
 import br.com.lazaro.api.repository.AssociadoRepository;
 import br.com.lazaro.api.repository.PartidoRepository;
-import br.com.lazaro.api.service.exception.EntityNotFoundException;
+import br.com.lazaro.api.service.exception.EntityNotFoundServiceException;
 
 @Service
 public class PartidoService {
@@ -76,20 +76,20 @@ public class PartidoService {
 	}
 
 	@Transactional
-	public PartidoDTO findById(Long id) throws EntityNotFoundException {
+	public PartidoDTO findById(Long id) throws EntityNotFoundServiceException {
 		Optional<Partido> objModel = partidoRepository.findById(id);
 		Partido model = objModel
-				.orElseThrow(() -> new EntityNotFoundException("Partido de Id " + id + " não foi encontrado"));
+				.orElseThrow(() -> new EntityNotFoundServiceException("Partido de Id " + id + " não foi encontrado"));
 		return new PartidoDTO(model);
 	}
 
 	@Transactional
-	public List<AssociadoDTO> findAllAssociadosPartido(Long id) throws EntityNotFoundException {
+	public List<AssociadoDTO> findAllAssociadosPartido(Long id) throws EntityNotFoundServiceException {
 		
 		Optional<Partido> partido = partidoRepository.findById(id);
 		
 		Partido model = partido
-				.orElseThrow(() -> new EntityNotFoundException("Partido de Id " + id + " não foi encontrado"));
+				.orElseThrow(() -> new EntityNotFoundServiceException("Partido de Id " + id + " não foi encontrado"));
 
 		List<Associado> associados = model.getAssociados();
 		List<AssociadoDTO> associadosDTO = new ArrayList<>();
@@ -120,7 +120,7 @@ public class PartidoService {
 
 			return new PartidoDTO(partido);
 		} catch (javax.persistence.EntityNotFoundException e) {
-			throw new EntityNotFoundException("Id " + " não encontrado");
+			throw new EntityNotFoundServiceException("Id " + " não encontrado");
 		}
 	}
 
@@ -128,8 +128,8 @@ public class PartidoService {
 		try {
 			partidoRepository.deleteById(id);
 
-		} catch (EntityNotFoundException e) {
-			throw new EntityNotFoundException("Id " + id + " não encontrado");
+		} catch (EntityNotFoundServiceException e) {
+			throw new EntityNotFoundServiceException("Id " + id + " não encontrado");
 		}
 
 	}

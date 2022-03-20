@@ -24,7 +24,7 @@ import br.com.lazaro.api.dto.PartidoDTO;
 import br.com.lazaro.api.model.Associado;
 import br.com.lazaro.api.service.AssociadoService;
 import br.com.lazaro.api.service.PartidoService;
-import br.com.lazaro.api.service.exception.EntityNotFoundException;
+import br.com.lazaro.api.service.exception.EntityNotFoundServiceException;
 
 @RestController
 @RequestMapping("/")
@@ -74,7 +74,7 @@ public class AssociadoController {
 	}
 
 	@GetMapping(value = "/associados/{id}")
-	public ResponseEntity<AssociadoDTO> findById(@PathVariable Long id) throws EntityNotFoundException {
+	public ResponseEntity<AssociadoDTO> findById(@PathVariable Long id) throws EntityNotFoundServiceException {
 		AssociadoDTO dto = associadoService.findById(id);
 		return ResponseEntity.ok().body(dto);
 
@@ -88,7 +88,7 @@ public class AssociadoController {
 	}
 
 	@DeleteMapping(value = "/associados/{id}")
-	public ResponseEntity<AssociadoDTO> delete(@PathVariable Long id) {
+	public ResponseEntity<AssociadoDTO> delete(@PathVariable Long id){
 		associadoService.delete(id);
 		return ResponseEntity.noContent().build();
 	}

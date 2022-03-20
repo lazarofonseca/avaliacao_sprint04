@@ -7,6 +7,8 @@ import java.util.Optional;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +18,7 @@ import br.com.lazaro.api.model.Associado;
 import br.com.lazaro.api.model.Partido;
 import br.com.lazaro.api.repository.AssociadoRepository;
 import br.com.lazaro.api.repository.PartidoRepository;
-import br.com.lazaro.api.service.exception.EntityNotFoundException;
+import br.com.lazaro.api.service.exception.EntityNotFoundServiceException;
 
 @Service
 public class AssociadoService {
@@ -46,9 +48,9 @@ public class AssociadoService {
 		List<Associado> lista = new ArrayList<>();
 		
 		Associado associadoModelo = aassDto.orElseThrow(
-				() -> new EntityNotFoundException("Associado de Id " + idAssociado + " não foi encontrado"));
+				() -> new EntityNotFoundServiceException("Associado de Id " + idAssociado + " não foi encontrado"));
 		Partido partidoModelo = parDto
-				.orElseThrow(() -> new EntityNotFoundException("Partido de Id " + idPartido + " não foi encontrado"));
+				.orElseThrow(() -> new EntityNotFoundServiceException("Partido de Id " + idPartido + " não foi encontrado"));
 
 		
 		AssociadoDTO associadoDTO = new AssociadoDTO(associadoModelo);
@@ -114,10 +116,10 @@ public class AssociadoService {
 	}
 
 	@Transactional
-	public AssociadoDTO findById(Long id) throws EntityNotFoundException {
+	public AssociadoDTO findById(Long id) throws EntityNotFoundServiceException {
 		Optional<Associado> objModel = associadoRepository.findById(id);
 		Associado model = objModel
-				.orElseThrow(() -> new EntityNotFoundException("Associado de Id " + id + " não foi encontrado"));
+				.orElseThrow(() -> new EntityNotFoundServiceException("Associado de Id " + id + " não foi encontrado"));
 		return new AssociadoDTO(model);
 	}
 
@@ -135,7 +137,7 @@ public class AssociadoService {
 
 			return new AssociadoDTO(associado);
 		} catch (javax.persistence.EntityNotFoundException e) {
-			throw new EntityNotFoundException("Id " + " não encontrado");
+			throw new EntityNotFoundServiceException("Id " + " não encontrado");
 		}
 	}
 
@@ -143,10 +145,12 @@ public class AssociadoService {
 		try {
 			associadoRepository.deleteById(id);
 
-		} catch (EntityNotFoundException e) {
-			throw new EntityNotFoundException("Id " + id + " não encontrado");
+		} catch (EmptyResultDataAccessException e) {
+			
+			throw new EntityNotFoundServiceException("Id " + id + " não encontrado");
+		} catch (DataIntegrityViolationException e) {
+			throw new EntityNotFoundServiceException("Id " + id + " não encontrado");
 		}
-
 	}
 
 	public static Associado instanciaAssociado(AssociadoDTO associadoDTO) {
