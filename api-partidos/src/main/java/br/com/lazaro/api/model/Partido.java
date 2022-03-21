@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -31,8 +32,8 @@ public class Partido implements Serializable {
 	private LocalDate dataFundacao;
 
 	@JsonIgnore
-	@OneToMany(mappedBy = "idAssociado")
-	List<Associado> associados = new ArrayList<>();
+	@OneToMany(mappedBy = "idAssociado", cascade = CascadeType.ALL)
+	List<Associado> associados = new ArrayList<Associado>();
 
 	public Partido() {
 	}
