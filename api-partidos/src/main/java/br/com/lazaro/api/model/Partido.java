@@ -37,6 +37,18 @@ public class Partido implements Serializable {
 
 	public Partido() {
 	}
+	
+	
+
+	public Partido(Long idPartido, String nomePartido, String sigla, String ideologia, LocalDate dataFundacao) {
+		this.idPartido = idPartido;
+		this.nomePartido = nomePartido;
+		this.sigla = sigla;
+		this.ideologia = ideologia;
+		this.dataFundacao = dataFundacao;
+	}
+
+
 
 	public Long getIdPartido() {
 		return idPartido;

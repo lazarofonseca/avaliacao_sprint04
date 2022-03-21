@@ -2,7 +2,6 @@ package br.com.lazaro.api.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.Mockito.doNothing;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -18,9 +17,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import br.com.lazaro.api.dto.AssociadoDTO;
 import br.com.lazaro.api.dto.PartidoDTO;
-import br.com.lazaro.api.model.Associado;
 import br.com.lazaro.api.model.Partido;
 import br.com.lazaro.api.repository.PartidoRepository;
 
@@ -32,7 +29,7 @@ public class ApiServicePartidoTests {
 
 	@Mock
 	private PartidoDTO partidodoDTO;
-	
+
 	@Mock
 	private Partido partido;
 
@@ -43,11 +40,11 @@ public class ApiServicePartidoTests {
 	private Long idNaoExiste;
 	private Long idErroIntegridade;
 
-
 	@BeforeEach
 	void inicializaId() throws Exception {
 
 		instanciaPartidoDTO();
+		instanciaPartido();
 
 		idExistente = 1L;
 		idNaoExiste = 10000L;
@@ -64,6 +61,9 @@ public class ApiServicePartidoTests {
 		Mockito.when(repository.findAll()).thenReturn(List.of(partido));
 
 		List<PartidoDTO> response = service.findAll();
+
+		System.out.println(response.get(0).getIdPartido());
+		System.out.println(response.get(0).getNomePartido());
 
 		assertNotNull(response);
 		assertEquals(1, response.size());
@@ -107,18 +107,20 @@ public class ApiServicePartidoTests {
 		Mockito.verify(repository, Mockito.times(1)).deleteById(idErroIntegridade);
 
 	}
-	
-	
 
 	private void instanciaPartidoDTO() {
 
-		PartidoDTO partido = new PartidoDTO(1L, "Partido Neutro", "PN", "Centro", LocalDate.now());
-
+		partido = new Partido();
+		partido.setIdPartido(1L);
+		partido.setNomePartido("Partido Neutro");
+		partido.setIdeologia("Centro");
+		partido.setSigla("PN");
+		partido.setDataFundacao(LocalDate.now());
 	}
 
 	private void instanciaPartido() {
 
-		PartidoDTO partido = new PartidoDTO(1L, "Partido Neutro", "PN", "Centro", LocalDate.now());
+		Partido partido = new Partido(1L, "Partido Neutro", "PN", "Centro", LocalDate.now());
 
 	}
 
